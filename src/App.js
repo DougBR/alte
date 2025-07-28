@@ -15,17 +15,35 @@ function Square({ value, inWinner, onSquareClick }) {
   );
 }
 
-function Board({ xIsNext, squares, onPlay }) {
+function Board({ xIsNext, squares, onPlay, playAgainstComputer }) {
+  function calculateComputerMove(emptySquares, nextSquares) {
+    if (emptySquares.includes(4)) return 4;
+    if (emptySquares.includes(0)) return 0;
+    if (emptySquares.includes(2)) return 2;
+    if (emptySquares.includes(6)) return 6;
+    if (emptySquares.includes(8)) return 8;
+
+    const randomIndex = Math.floor(Math.random() * emptySquares.length);
+    return emptySquares[randomIndex];
+  }
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
     const nextSquares = squares.slice();
-    if (xIsNext) {
-      nextSquares[i] = "X";
-    } else {
+    if (playAgainstComputer) {
       nextSquares[i] = "O";
-    }
+      onPlay(nextSquares);
+      const emptySquares = nextSquares
+        .map((square, index) => (square === null ? index : null))
+        .filter((index) => index !== null);
+      console.log("Empty squares:", emptySquares);
+
+      i = calculateComputerMove(emptySquares, nextSquares);
+      nextSquares[i] = "X";
+    } else if (xIsNext) nextSquares[i] = "X";
+    else nextSquares[i] = "O";
+
     onPlay(nextSquares);
   }
 
@@ -62,7 +80,7 @@ export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const [ascending, setAscending] = useState(true);
-  const [playMode, setPlayMode] = useState(false);
+  const [playAgainstComputer, setPlayAgainstComputer] = useState(false);
 
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
@@ -78,7 +96,7 @@ export default function Game() {
   }
 
   function changePlayMode() {
-    setPlayMode(!playMode);
+    setPlayAgainstComputer(!playAgainstComputer);
     jumpTo(0);
     setHistory([Array(9).fill(null)]);
   }
@@ -106,11 +124,16 @@ export default function Game() {
   return (
     <div className="game">
       <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        <Board
+          playAgainstComputer={playAgainstComputer}
+          xIsNext={xIsNext}
+          squares={currentSquares}
+          onPlay={handlePlay}
+        />
         <div className="view-order">
           <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
             <Typography>Humano x humano</Typography>
-            <Switch checked={playMode} onChange={changePlayMode} />
+            <Switch checked={playAgainstComputer} onChange={changePlayMode} />
             <Typography>Humano x computador</Typography>
           </Stack>
         </div>
