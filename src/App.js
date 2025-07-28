@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button, Stack, Typography, Switch } from "@mui/material";
-import styled from "@emotion/styled";
 
 function Square({ value, inWinner, onSquareClick }) {
   return (
@@ -62,7 +61,8 @@ function Board({ xIsNext, squares, onPlay }) {
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
-  const [checked, setChecked] = useState(true);
+  const [ascending, setAscending] = useState(true);
+  const [playMode, setPlayMode] = useState(false);
 
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
@@ -75,6 +75,12 @@ export default function Game() {
 
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
+  }
+
+  function changePlayMode() {
+    setPlayMode(!playMode);
+    jumpTo(0);
+    setHistory([Array(9).fill(null)]);
   }
 
   const moves = history.map((squares, move) => {
@@ -101,16 +107,23 @@ export default function Game() {
     <div className="game">
       <div className="game-board">
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        <div className="view-order">
+          <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+            <Typography>Humano x humano</Typography>
+            <Switch checked={playMode} onChange={changePlayMode} />
+            <Typography>Humano x computador</Typography>
+          </Stack>
+        </div>
       </div>
       <div className="game-info">
         <div className="view-order">
           <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
             <Typography>Decrescente</Typography>
-            <Switch checked={checked} onChange={() => setChecked(!checked)} />
+            <Switch checked={ascending} onChange={() => setAscending(!ascending)} />
             <Typography>Crescente</Typography>
           </Stack>
         </div>
-        <ol reversed={!checked}>{checked ? moves : moves.reverse()}</ol>
+        <ol reversed={!ascending}>{ascending ? moves : moves.reverse()}</ol>
       </div>
     </div>
   );
