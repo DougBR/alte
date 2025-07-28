@@ -1,10 +1,18 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { Button, Stack, Typography, Switch } from "@mui/material";
+import styled from "@emotion/styled";
 
-function Square({ value, onSquareClick }) {
+function Square({ value, inWinner, onSquareClick }) {
   return (
-    <button className="square" onClick={onSquareClick}>
+    <Button
+      variant={inWinner ? "contained" : "outlined"}
+      className="square"
+      color="primary"
+      sx={{ borderRadius: 0, fontWeight: "bold" }}
+      onClick={onSquareClick}
+    >
       {value}
-    </button>
+    </Button>
   );
 }
 
@@ -15,39 +23,38 @@ function Board({ xIsNext, squares, onPlay }) {
     }
     const nextSquares = squares.slice();
     if (xIsNext) {
-      nextSquares[i] = 'X';
+      nextSquares[i] = "X";
     } else {
-      nextSquares[i] = 'O';
+      nextSquares[i] = "O";
     }
     onPlay(nextSquares);
   }
 
   const winner = calculateWinner(squares);
+  let winningSquares = [-1, -1, -1];
   let status;
   if (winner) {
-    status = 'Winner: ' + winner;
+    status = "Vencedor: " + winner[0];
+    winningSquares = winner;
   } else {
-    status = 'Next player: ' + (xIsNext ? 'X' : 'O');
+    status = "Próximo jogador: " + (xIsNext ? "X" : "O");
   }
 
   return (
     <>
       <div className="status">{status}</div>
-      <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-      </div>
+      {[0, 1, 2].map((i) => (
+        <div key={i} className="board-row">
+          {[0, 1, 2].map((j) => (
+            <Square
+              key={j}
+              inWinner={winningSquares.includes(i * 3 + j)}
+              value={squares[i * 3 + j]}
+              onSquareClick={() => handleClick(i * 3 + j)}
+            />
+          ))}
+        </div>
+      ))}
     </>
   );
 }
@@ -55,6 +62,8 @@ function Board({ xIsNext, squares, onPlay }) {
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
+  const [checked, setChecked] = useState(true);
+
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
@@ -71,13 +80,19 @@ export default function Game() {
   const moves = history.map((squares, move) => {
     let description;
     if (move > 0) {
-      description = 'Go to move #' + move;
+      if (move === currentMove) {
+        description = "Movimento atual #" + move;
+      } else {
+        description = "Ir para o movimento #" + move;
+      }
     } else {
-      description = 'Go to game start';
+      description = "Ir para o movimento inicial";
     }
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        <Button color="primary" onClick={() => jumpTo(move)}>
+          {description}
+        </Button>
       </li>
     );
   });
@@ -88,7 +103,14 @@ export default function Game() {
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
-        <ol>{moves}</ol>
+        <div className="view-order">
+          <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+            <Typography>Decrescente</Typography>
+            <Switch checked={checked} onChange={() => setChecked(!checked)} />
+            <Typography>Crescente</Typography>
+          </Stack>
+        </div>
+        <ol reversed={!checked}>{checked ? moves : moves.reverse()}</ol>
       </div>
     </div>
   );
@@ -108,7 +130,7 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return lines[i];
     }
   }
   return null;
