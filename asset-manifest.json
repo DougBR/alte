@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/alte/static/css/main.1cbb1a48.css",
+    "main.js": "/alte/static/js/main.1a7b718f.js",
+    "index.html": "/alte/index.html",
+    "main.1cbb1a48.css.map": "/alte/static/css/main.1cbb1a48.css.map",
+    "main.1a7b718f.js.map": "/alte/static/js/main.1a7b718f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1cbb1a48.css",
+    "static/js/main.1a7b718f.js"
+  ]
+}
