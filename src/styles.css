@@ -101,6 +101,14 @@ body {
   flex-direction: column;
 }
 
+.game-restart {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
 .view-order {
   display: flex;
   align-items: center;

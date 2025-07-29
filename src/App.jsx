@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@mui/material";
+import ThreeWayToggle from "./ThreeWayToggle";
 import Board from "./Board";
 import Toggle from "./Toggle";
 
@@ -8,6 +9,7 @@ export default function Game() {
   const [currentMove, setCurrentMove] = useState(0);
   const [ascending, setAscending] = useState(true);
   const [playAgainstComputer, setPlayAgainstComputer] = useState(false);
+  const [gameLevel, setGameLevel] = useState("middle");
 
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
@@ -50,11 +52,17 @@ export default function Game() {
         <Board
           playAgainstComputer={playAgainstComputer}
           xIsNext={xIsNext}
+          gameLevel={gameLevel}
           squares={currentSquares}
           onPlay={handlePlay}
         />
         <div className="view-order">
           <Toggle checked={playAgainstComputer} onChange={changePlayMode} off="HumanoxHumano" on="HumanoxComputador" />
+        </div>
+        <div className="level-toggle">
+          {playAgainstComputer && (
+            <ThreeWayToggle labels={["Fácil", "Normal", "Difícil"]} option={gameLevel} setOption={setGameLevel} />
+          )}
         </div>
         <div className="game-restart">
           <Button variant="contained" color="secondary" onClick={() => jumpTo(0)}>

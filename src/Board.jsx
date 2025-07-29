@@ -3,7 +3,7 @@ import Square from "./Square";
 import { Snackbar, Alert } from "@mui/material";
 import { calculateComputerMove } from "./computer";
 
-export default function Board({ xIsNext, squares, onPlay, playAgainstComputer }) {
+export default function Board({ xIsNext, squares, gameLevel, onPlay, playAgainstComputer }) {
   const [endGame, setEndGame] = useState(false);
   let status = "Próximo jogador: " + (xIsNext ? "X" : "O");
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function Board({ xIsNext, squares, onPlay, playAgainstComputer })
       const emptySquares = nextSquares
         .map((square, index) => (square === null ? index : null))
         .filter((index) => index !== null);
-      i = calculateComputerMove(emptySquares, nextSquares);
+      i = calculateComputerMove(emptySquares, nextSquares, gameLevel);
       nextSquares[i] = "X";
     } else if (xIsNext) nextSquares[i] = "X";
     else nextSquares[i] = "O";

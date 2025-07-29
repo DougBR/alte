@@ -1,4 +1,4 @@
-export function calculateComputerMove(emptySquares, board) {
+export function calculateComputerMove(emptySquares, board, gameLevel) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -9,6 +9,11 @@ export function calculateComputerMove(emptySquares, board) {
     [0, 4, 8],
     [2, 4, 6],
   ];
+  const randomIndex = Math.floor(Math.random() * emptySquares.length);
+
+  if (gameLevel === "low") {
+    return emptySquares[randomIndex];
+  }
 
   // Check if computer can win
   for (const [a, b, c] of lines) {
@@ -34,9 +39,13 @@ export function calculateComputerMove(emptySquares, board) {
   const corners = [0, 2, 6, 8].filter((i) => emptySquares.includes(i));
   const sides = [1, 3, 5, 7].filter((i) => emptySquares.includes(i));
 
-  // counter corders strategy
+  // counter corners strategy
   const enemyCorners = [0, 2, 6, 8].filter((i) => board[i] === "O");
-  if (enemyCorners.length === 2 && (board[0] === board[8] || (board[2] === board[6] && sides.length > 0)))
+  if (
+    gameLevel === "high" &&
+    enemyCorners.length === 2 &&
+    (board[0] === board[8] || (board[2] === board[6] && sides.length > 0))
+  )
     return sides[Math.floor(Math.random() * sides.length)];
 
   //prefer corners
@@ -44,6 +53,5 @@ export function calculateComputerMove(emptySquares, board) {
 
   if (sides.length > 0) return sides[Math.floor(Math.random() * sides.length)];
 
-  const randomIndex = Math.floor(Math.random() * emptySquares.length);
   return emptySquares[randomIndex];
 }
