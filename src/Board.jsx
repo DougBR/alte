@@ -1,6 +1,14 @@
+import { useState, useEffect } from "react";
 import Square from "./Square";
+import { Snackbar, Alert } from "@mui/material";
 
 export default function Board({ xIsNext, squares, onPlay, playAgainstComputer }) {
+  const [endGame, setEndGame] = useState(false);
+  let status = "Próximo jogador: " + (xIsNext ? "X" : "O");
+  useEffect(() => {
+    if (status.includes("Vencedor") || status.includes("velha")) setEndGame(true);
+  }, [status]);
+
   function calculateWinner(squares) {
     const lines = [
       [0, 1, 2],
@@ -85,7 +93,6 @@ export default function Board({ xIsNext, squares, onPlay, playAgainstComputer })
 
   const winner = calculateWinner(squares);
   let winningSquares = [-1, -1, -1];
-  let status;
   if (winner) {
     status = "Vencedor: " + squares[winner[0]];
     winningSquares = winner;
@@ -93,25 +100,33 @@ export default function Board({ xIsNext, squares, onPlay, playAgainstComputer })
     status = "Deu velha!";
   } else if (playAgainstComputer) {
     status = "Pode jogar";
-  } else {
-    status = "Próximo jogador: " + (xIsNext ? "X" : "O");
   }
 
   return (
     <>
-      <div className="status">{status}</div>
-      {[0, 1, 2].map((i) => (
-        <div key={i} className="board-row">
-          {[0, 1, 2].map((j) => (
-            <Square
-              key={j}
-              inWinner={winningSquares.includes(i * 3 + j)}
-              value={squares[i * 3 + j]}
-              onSquareClick={() => handleClick(i * 3 + j)}
-            />
-          ))}
-        </div>
-      ))}
+      <div>
+        <div className="status">{status}</div>
+        {[0, 1, 2].map((i) => (
+          <div key={i} className="board-row">
+            {[0, 1, 2].map((j) => {
+              const index = i * 3 + j;
+              return (
+                <Square
+                  key={index}
+                  inWinner={winningSquares.includes(index)}
+                  value={squares[index]}
+                  onSquareClick={() => handleClick(index)}
+                />
+              );
+            })}
+          </div>
+        ))}
+        <Snackbar open={endGame} message={status} autoHideDuration={5000} onClose={() => setEndGame(false)}>
+          <Alert severity={status.includes("velha") ? "info" : "success"} sx={{ width: "100%" }}>
+            {status}
+          </Alert>
+        </Snackbar>
+      </div>
     </>
   );
 }
