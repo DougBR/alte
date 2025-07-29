@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/alte/static/css/main.170ef2bf.css",
-    "main.js": "/alte/static/js/main.eba45094.js",
+    "main.css": "/alte/static/css/main.691b285c.css",
+    "main.js": "/alte/static/js/main.c4b79bff.js",
     "index.html": "/alte/index.html",
-    "main.170ef2bf.css.map": "/alte/static/css/main.170ef2bf.css.map",
-    "main.eba45094.js.map": "/alte/static/js/main.eba45094.js.map"
+    "main.691b285c.css.map": "/alte/static/css/main.691b285c.css.map",
+    "main.c4b79bff.js.map": "/alte/static/js/main.c4b79bff.js.map"
   },
   "entrypoints": [
-    "static/css/main.170ef2bf.css",
-    "static/js/main.eba45094.js"
+    "static/css/main.691b285c.css",
+    "static/js/main.c4b79bff.js"
   ]
 }
