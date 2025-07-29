@@ -1,0 +1,17 @@
+{
+  "short_name": "alte",
+  "name": "Alte Schewde - find out why the names",
+  "description": "O jogo da velha mais divertido do mundo!",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "lang": "pt-BR",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#000000"
+}
