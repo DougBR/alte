@@ -56,6 +56,11 @@ export default function Game() {
         <div className="view-order">
           <Toggle checked={playAgainstComputer} onChange={changePlayMode} off="HumanoxHumano" on="HumanoxComputador" />
         </div>
+        <div className="game-restart">
+          <Button variant="contained" color="secondary" onClick={() => jumpTo(0)}>
+            Reiniciar
+          </Button>
+        </div>
       </div>
       <div className="game-info">
         <div className="view-order">
