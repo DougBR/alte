@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Square from "./Square";
 import { Snackbar, Alert } from "@mui/material";
+import { calculateComputerMove } from "./computer";
 
 export default function Board({ xIsNext, squares, onPlay, playAgainstComputer }) {
   const [endGame, setEndGame] = useState(false);
@@ -27,46 +28,6 @@ export default function Board({ xIsNext, squares, onPlay, playAgainstComputer })
       }
     }
     return null;
-  }
-
-  function calculateComputerMove(emptySquares, board) {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-
-    for (const [a, b, c] of lines) {
-      const line = [board[a], board[b], board[c]];
-      const positions = [a, b, c];
-      const xCount = line.filter((v) => v === "X").length;
-      const emptyIndex = line.findIndex((v) => v === null);
-      if (xCount === 2 && emptyIndex !== -1) return positions[emptyIndex];
-    }
-
-    for (const [a, b, c] of lines) {
-      const line = [board[a], board[b], board[c]];
-      const positions = [a, b, c];
-      const oCount = line.filter((v) => v === "O").length;
-      const emptyIndex = line.findIndex((v) => v === null);
-      if (oCount === 2 && emptyIndex !== -1) return positions[emptyIndex];
-    }
-
-    if (emptySquares.includes(4)) return 4;
-
-    const corners = [0, 2, 6, 8].filter((i) => emptySquares.includes(i));
-    if (corners.length > 0) return corners[0];
-
-    const sides = [1, 3, 5, 7].filter((i) => emptySquares.includes(i));
-    if (sides.length > 0) return sides[0];
-
-    const randomIndex = Math.floor(Math.random() * emptySquares.length);
-    return emptySquares[randomIndex];
   }
 
   function handleClick(i) {
