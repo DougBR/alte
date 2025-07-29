@@ -87,8 +87,12 @@ export default function Board({ xIsNext, squares, onPlay, playAgainstComputer })
   let winningSquares = [-1, -1, -1];
   let status;
   if (winner) {
-    status = "Vencedor: " + winner[0];
+    status = "Vencedor: " + squares[winner[0]];
     winningSquares = winner;
+  } else if (squares.every((square) => square !== null)) {
+    status = "Deu velha!";
+  } else if (playAgainstComputer) {
+    status = "Pode jogar";
   } else {
     status = "Próximo jogador: " + (xIsNext ? "X" : "O");
   }
