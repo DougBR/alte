@@ -8,7 +8,7 @@ export default function ThreeWayToggle({ labels, option, setOption }) {
   };
   return (
     <div className="three-way-toggle">
-      <ToggleButtonGroup value={option} exclusive onChange={handleChange}>
+      <ToggleButtonGroup color="primary" value={option} exclusive onChange={handleChange}>
         <ToggleButton value="low">{labels[0]}</ToggleButton>
         <ToggleButton value="middle">{labels[1]}</ToggleButton>
         <ToggleButton value="high">{labels[2]}</ToggleButton>

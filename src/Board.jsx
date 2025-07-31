@@ -65,7 +65,7 @@ export default function Board({ xIsNext, squares, gameLevel, onPlay, playAgainst
 
   return (
     <>
-      <div>
+      <div className="board">
         <div className="status">{status}</div>
         {[0, 1, 2].map((i) => (
           <div key={i} className="board-row">
