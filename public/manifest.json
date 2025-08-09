@@ -6,8 +6,7 @@
     {
       "src": "/alte/favicon.ico",
       "sizes": "512x512 192x192 64x64 32x32 24x24 16x16",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ],
   "start_url": "/alte/",
