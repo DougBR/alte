@@ -60,7 +60,7 @@ export default function Board({ xIsNext, squares, gameLevel, onPlay, playAgainst
   } else if (squares.every((square) => square !== null)) {
     status = "Deu velha!";
   } else if (playAgainstComputer) {
-    status = "Pode jogar";
+    status = "Tente ganhar!";
   }
 
   return (
