@@ -4,12 +4,13 @@
   "description": "O jogo da velha mais divertido do mundo!",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "512x512 64x64 32x32 24x24 16x16",
+      "src": "/alte/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/png"
     }
   ],
-  "start_url": ".",
+  "start_url": "/alte/",
+  "scope": "/alte/",
   "lang": "pt-BR",
   "display": "standalone",
   "theme_color": "#000000",
