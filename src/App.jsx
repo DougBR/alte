@@ -7,7 +7,6 @@ import Toggle from "./Toggle";
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
-  const [ascending, setAscending] = useState(true);
   const [playAgainstComputer, setPlayAgainstComputer] = useState(false);
   const [gameLevel, setGameLevel] = useState("middle");
 
@@ -57,7 +56,7 @@ export default function Game() {
           onPlay={handlePlay}
         />
         <div className="view-order">
-          <Toggle checked={playAgainstComputer} onChange={changePlayMode} off="HumanoxHumano" on="HumanoxComputador" />
+          <Toggle checked={playAgainstComputer} onChange={changePlayMode} off="" on="Jogar com Bot" />
         </div>
         <div className="level-toggle">
           {playAgainstComputer && (
@@ -71,10 +70,7 @@ export default function Game() {
         </div>
       </div>
       <div className="game-info">
-        <div className="view-order">
-          <Toggle checked={ascending} onChange={() => setAscending(!ascending)} off="Decrescente" on="Crescente" />
-        </div>
-        <ol reversed={!ascending}>{ascending ? moves : moves.reverse()}</ol>
+        <ol>{moves}</ol>
       </div>
     </div>
   );
