@@ -38,8 +38,8 @@ export default function Game() {
     } else description = "Ir para o movimento inicial";
 
     return (
-      <li key={move}>
-        <Button color="primary" onClick={() => jumpTo(move)}>
+      <li className="move-list" key={move}>
+        <Button className="move-button" onClick={() => jumpTo(move)}>
           {description}
         </Button>
       </li>

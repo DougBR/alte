@@ -88,15 +88,28 @@ body {
 }
 .game {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .game-info {
-  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.move-list {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.move-button {
+  justify-content: flex-start !important;
+  width: 100%;
+  padding-left: 8px;
 }
 
 .game-board {
-  margin-right: 20px;
   align-items: center;
   display: flex;
   flex-direction: column;
