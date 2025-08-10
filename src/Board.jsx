@@ -37,6 +37,8 @@ export default function Board({
   const winnerLine = calculateWinner(squares);
   const winnerSymbol = winnerLine ? squares[winnerLine[0]] : null;
   const isDraw = !winnerSymbol && squares.every((sq) => sq !== null);
+  const OSYMBOL = "🟢";
+  const XSYMBOL = "❌";
 
   let status;
   if (winnerSymbol) {
@@ -44,12 +46,12 @@ export default function Board({
   } else if (isDraw) {
     status = "Deu velha!";
   } else {
-    status = playAgainstComputer ? "Tente ganhar!" : `Próximo jogador: ${xIsNext ? "X" : "O"}`;
+    status = playAgainstComputer ? "Tente ganhar!" : `Próximo jogador: ${xIsNext ? XSYMBOL : OSYMBOL}`;
   }
 
   function endRound(winner) {
-    if (winner === "O") setScore1((p) => p + 1);
-    else if (winner === "X") setScore2((p) => p + 1);
+    if (winner === OSYMBOL) setScore1((p) => p + 1);
+    else if (winner === XSYMBOL) setScore2((p) => p + 1);
     setEndGame(true);
   }
 
@@ -59,9 +61,9 @@ export default function Board({
     let nextSquares = squares.slice();
 
     if (playAgainstComputer) {
-      nextSquares[i] = "O";
+      nextSquares[i] = OSYMBOL;
       if (calculateWinner(nextSquares)) {
-        endRound("O");
+        endRound(OSYMBOL);
         onPlay(nextSquares);
         return;
       }
@@ -73,12 +75,12 @@ export default function Board({
       }
       const emptySquares = nextSquares.map((sq, idx) => (sq === null ? idx : null)).filter((idx) => idx !== null);
       const compIndex = calculateComputerMove(emptySquares, nextSquares, gameLevel);
-      nextSquares[compIndex] = "X";
+      nextSquares[compIndex] = XSYMBOL;
       if (calculateWinner(nextSquares)) {
-        endRound("X");
+        endRound(XSYMBOL);
       }
     } else {
-      nextSquares[i] = xIsNext ? "X" : "O";
+      nextSquares[i] = xIsNext ? XSYMBOL : OSYMBOL;
       const winnerNow = calculateWinner(nextSquares);
       if (winnerNow) {
         endRound(nextSquares[winnerNow[0]]);

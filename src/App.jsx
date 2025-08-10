@@ -60,7 +60,7 @@ export default function Game() {
     <div className="game">
       <div className="placcard">
         <h1>
-          O: {score1} | X: {score2} | Velha: {draw}
+          🟢: {score1} | ❌: {score2} | #️⃣: {draw}
         </h1>
       </div>
       <div className="game-board">
