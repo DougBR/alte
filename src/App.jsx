@@ -70,6 +70,8 @@ export default function Game() {
         </div>
       </div>
       <div className="game-info">
+        <hr className="divider" />
+        <span>Veja e estude os movimentos feitos:</span>
         <ol>{moves}</ol>
       </div>
     </div>
