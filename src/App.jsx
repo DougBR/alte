@@ -9,8 +9,9 @@ export default function Game() {
   const [currentMove, setCurrentMove] = useState(0);
   const [playAgainstComputer, setPlayAgainstComputer] = useState(false);
   const [gameLevel, setGameLevel] = useState("middle");
-  const [player1Score, setPlayer1Score] = useState(0);
-  const [player2Score, setPlayer2Score] = useState(0);
+  const [score1, setScore1] = useState(0);
+  const [score2, setScore2] = useState(0);
+  const [draw, setDraw] = useState(0);
 
   const xIsNext = currentMove % 2 === 1;
   const currentSquares = history[currentMove];
@@ -27,10 +28,13 @@ export default function Game() {
 
   function changePlayMode() {
     setPlayAgainstComputer((prev) => !prev);
-    resetGame();
+    setDraw(0);
+    setScore1(0);
+    setScore2(0);
+    newGame();
   }
 
-  function resetGame() {
+  function newGame() {
     jumpTo(0);
     setHistory([Array(9).fill(null)]);
   }
@@ -56,10 +60,9 @@ export default function Game() {
     <div className="game">
       <div className="placcard">
         <h1>
-          Placar: {player1Score} vs {player2Score}
+          O: {score1} | X: {score2} | Velha: {draw}
         </h1>
       </div>
-
       <div className="game-board">
         <Board
           playAgainstComputer={playAgainstComputer}
@@ -67,9 +70,10 @@ export default function Game() {
           gameLevel={gameLevel}
           squares={currentSquares}
           onPlay={handlePlay}
-          updatePlayer1Score={setPlayer1Score}
-          updatePlayer2Score={setPlayer2Score}
-          resetGame={resetGame}
+          newGame={newGame}
+          setScore1={setScore1}
+          setScore2={setScore2}
+          setDraw={setDraw}
         />
 
         <div className="view-order">
@@ -83,8 +87,8 @@ export default function Game() {
         </div>
 
         <div className="game-restart">
-          <Button variant="contained" color="secondary" onClick={resetGame}>
-            Reiniciar
+          <Button variant="contained" color="secondary" onClick={newGame}>
+            Novo Jogo
           </Button>
         </div>
       </div>

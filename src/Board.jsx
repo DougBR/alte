@@ -28,9 +28,10 @@ export default function Board({
   gameLevel,
   onPlay,
   playAgainstComputer,
-  updatePlayer1Score,
-  updatePlayer2Score,
-  resetGame,
+  setScore1,
+  setScore2,
+  setDraw,
+  newGame,
 }) {
   const [endGame, setEndGame] = useState(false);
   const winnerLine = calculateWinner(squares);
@@ -47,8 +48,8 @@ export default function Board({
   }
 
   function endRound(winner) {
-    if (winner === "O") updatePlayer1Score((p) => p + 1);
-    else if (winner === "X") updatePlayer2Score((p) => p + 1);
+    if (winner === "O") setScore1((p) => p + 1);
+    else if (winner === "X") setScore2((p) => p + 1);
     setEndGame(true);
   }
 
@@ -66,6 +67,7 @@ export default function Board({
       }
       if (!nextSquares.includes(null)) {
         setEndGame(true);
+        setDraw((d) => d + 1);
         onPlay(nextSquares);
         return;
       }
@@ -81,6 +83,7 @@ export default function Board({
       if (winnerNow) {
         endRound(nextSquares[winnerNow[0]]);
       } else if (!nextSquares.includes(null)) {
+        setDraw((d) => d + 1);
         setEndGame(true);
       }
     }
