@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/alte/static/css/main.e6ad0db1.css",
-    "main.js": "/alte/static/js/main.c6a0eb42.js",
+    "main.js": "/alte/static/js/main.0c433cb3.js",
     "index.html": "/alte/index.html",
     "main.e6ad0db1.css.map": "/alte/static/css/main.e6ad0db1.css.map",
-    "main.c6a0eb42.js.map": "/alte/static/js/main.c6a0eb42.js.map"
+    "main.0c433cb3.js.map": "/alte/static/js/main.0c433cb3.js.map"
   },
   "entrypoints": [
     "static/css/main.e6ad0db1.css",
-    "static/js/main.c6a0eb42.js"
+    "static/js/main.0c433cb3.js"
   ]
 }
