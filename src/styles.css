@@ -92,6 +92,13 @@ body {
   flex-direction: column;
 }
 
+.placcard {
+  color: #d6eb39;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .game-info {
   display: flex;
   flex-direction: column;
