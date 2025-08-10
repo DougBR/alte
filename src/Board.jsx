@@ -22,6 +22,21 @@ function calculateWinner(squares) {
   return null;
 }
 
+function endMessage() {
+  const messages = [
+    "...",
+    "Revanche?",
+    "Moleza!",
+    "gg easy",
+    "Essa foi mole",
+    "Vs bot?",
+    "Belas jogadas",
+    "Vamos de novo",
+    "Nunca desista!",
+  ];
+  return messages[Math.floor(Math.random() * messages.length)];
+}
+
 export default function Board({
   xIsNext,
   squares,
@@ -42,11 +57,14 @@ export default function Board({
 
   let status;
   if (winnerSymbol) {
-    status = `Vencedor: ${winnerSymbol}`;
+    if (playAgainstComputer) {
+      if (winnerSymbol === OSYMBOL) status = "Nossa, parabéns!!!";
+      else if (winnerSymbol === XSYMBOL) status = "Perdeu, mané :/";
+    } else status = endMessage();
   } else if (isDraw) {
     status = "Deu velha!";
   } else {
-    status = playAgainstComputer ? "Tente ganhar!" : `Próximo jogador: ${xIsNext ? XSYMBOL : OSYMBOL}`;
+    status = playAgainstComputer ? "Tente ganhar!" : `Próximo jogador: ${xIsNext ? "X" : "O"}`;
   }
 
   function endRound(winner) {

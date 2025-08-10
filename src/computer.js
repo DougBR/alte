@@ -19,7 +19,7 @@ export function calculateComputerMove(emptySquares, board, gameLevel) {
   for (const [a, b, c] of lines) {
     const line = [board[a], board[b], board[c]];
     const positions = [a, b, c];
-    const xCount = line.filter((v) => v === "X").length;
+    const xCount = line.filter((v) => v === "❌").length;
     const emptyIndex = line.findIndex((v) => v === null);
     if (xCount === 2 && emptyIndex !== -1) return positions[emptyIndex];
   }
@@ -28,7 +28,7 @@ export function calculateComputerMove(emptySquares, board, gameLevel) {
   for (const [a, b, c] of lines) {
     const line = [board[a], board[b], board[c]];
     const positions = [a, b, c];
-    const oCount = line.filter((v) => v === "O").length;
+    const oCount = line.filter((v) => v === "🟢").length;
     const emptyIndex = line.findIndex((v) => v === null);
     if (oCount === 2 && emptyIndex !== -1) return positions[emptyIndex];
   }
@@ -40,7 +40,7 @@ export function calculateComputerMove(emptySquares, board, gameLevel) {
   const sides = [1, 3, 5, 7].filter((i) => emptySquares.includes(i));
 
   // counter corners strategy
-  const enemyCorners = [0, 2, 6, 8].filter((i) => board[i] === "O");
+  const enemyCorners = [0, 2, 6, 8].filter((i) => board[i] === "🟢");
   if (
     gameLevel === "high" &&
     enemyCorners.length === 2 &&
