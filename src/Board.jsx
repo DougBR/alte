@@ -144,7 +144,7 @@ export default function Board({
           <Box sx={{ width: "100%", height: 40, visibility: "hidden" }} />
         )}
       </div>
-      <Snackbar open={endGame} autoHideDuration={5000}>
+      <Snackbar open={endGame} autoHideDuration={1000}>
         <Alert severity={isDraw ? "info" : "success"} sx={{ width: "100%" }}>
           {winnerSymbol ? "Vencedor: " + winnerSymbol : "Deu velha!"}
         </Alert>

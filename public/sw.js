@@ -1,4 +1,4 @@
-const CACHE_NAME = "velha-v1";
+const CACHE_NAME = "velha-v5";
 const urlsToCache = [
   "/alte/",
   "/alte/index.html",
