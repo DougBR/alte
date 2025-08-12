@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, Box, Typography } from "@mui/material";
 import ThreeWayToggle from "./ThreeWayToggle";
 import Board from "./Board";
 import Toggle from "./Toggle";
@@ -58,10 +58,19 @@ export default function Game() {
 
   return (
     <div className="game">
-      <div className="placcard">
-        <h1>
+      <Box className="placcard">
+        <Typography variant="h5" component="h1">
           🟢: {score1} | ❌: {score2} | #️⃣: {draw}
-        </h1>
+        </Typography>
+      </Box>
+      <div className="view-order">
+        <Toggle checked={playAgainstComputer} onChange={changePlayMode} off="" on="Jogar com Bot" />
+      </div>
+
+      <div className="level-toggle">
+        {playAgainstComputer && (
+          <ThreeWayToggle labels={["Fácil", "Normal", "Difícil"]} option={gameLevel} setOption={setGameLevel} />
+        )}
       </div>
       <div className="game-board">
         <Board
@@ -75,22 +84,6 @@ export default function Game() {
           setScore2={setScore2}
           setDraw={setDraw}
         />
-
-        <div className="view-order">
-          <Toggle checked={playAgainstComputer} onChange={changePlayMode} off="" on="Jogar com Bot" />
-        </div>
-
-        <div className="level-toggle">
-          {playAgainstComputer && (
-            <ThreeWayToggle labels={["Fácil", "Normal", "Difícil"]} option={gameLevel} setOption={setGameLevel} />
-          )}
-        </div>
-
-        <div className="game-restart">
-          <Button variant="contained" color="secondary" onClick={newGame}>
-            Novo Jogo
-          </Button>
-        </div>
       </div>
 
       <div className="game-info">

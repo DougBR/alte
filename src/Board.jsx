@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Square from "./Square";
+import { Button, Box } from "@mui/material";
 import { Snackbar, Alert } from "@mui/material";
 import { calculateComputerMove } from "./computer";
 
@@ -111,6 +112,11 @@ export default function Board({
     onPlay(nextSquares);
   }
 
+  function handleNewGame() {
+    newGame();
+    setEndGame(false);
+  }
+
   return (
     <div className="board">
       <div className="status">{status}</div>
@@ -129,10 +135,18 @@ export default function Board({
           })}
         </div>
       ))}
-
-      <Snackbar open={endGame} autoHideDuration={5000} onClose={() => setEndGame(false)}>
-        <Alert severity={isDraw ? "info" : "success"} sx={{ width: "100%" }} onClose={() => setEndGame(false)}>
-          {status}
+      <div className="game-restart">
+        {endGame ? (
+          <Button variant="contained" color="secondary" onClick={handleNewGame}>
+            Novo Jogo
+          </Button>
+        ) : (
+          <Box sx={{ width: "100%", height: 40, visibility: "hidden" }} />
+        )}
+      </div>
+      <Snackbar open={endGame} autoHideDuration={5000}>
+        <Alert severity={isDraw ? "info" : "success"} sx={{ width: "100%" }}>
+          {winnerSymbol ? "Vencedor: " + winnerSymbol : "Deu velha!"}
         </Alert>
       </Snackbar>
     </div>
