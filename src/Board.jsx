@@ -50,6 +50,7 @@ export default function Board({
   newGame,
 }) {
   const [endGame, setEndGame] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const winnerLine = calculateWinner(squares);
   const winnerSymbol = winnerLine ? squares[winnerLine[0]] : null;
   const isDraw = !winnerSymbol && squares.every((sq) => sq !== null);
@@ -71,7 +72,9 @@ export default function Board({
   function endRound(winner) {
     if (winner === OSYMBOL) setScore1((p) => p + 1);
     else if (winner === XSYMBOL) setScore2((p) => p + 1);
+    else setDraw((d) => d + 1);
     setEndGame(true);
+    setShowAlert(true);
   }
 
   function handleClick(i) {
@@ -87,8 +90,7 @@ export default function Board({
         return;
       }
       if (!nextSquares.includes(null)) {
-        setEndGame(true);
-        setDraw((d) => d + 1);
+        endRound("#");
         onPlay(nextSquares);
         return;
       }
@@ -104,8 +106,7 @@ export default function Board({
       if (winnerNow) {
         endRound(nextSquares[winnerNow[0]]);
       } else if (!nextSquares.includes(null)) {
-        setDraw((d) => d + 1);
-        setEndGame(true);
+        endRound("#");
       }
     }
 
@@ -144,8 +145,8 @@ export default function Board({
           <Box sx={{ width: "100%", height: 40, visibility: "hidden" }} />
         )}
       </div>
-      <Snackbar open={endGame} autoHideDuration={1000}>
-        <Alert severity={isDraw ? "info" : "success"} sx={{ width: "100%" }}>
+      <Snackbar open={showAlert} autoHideDuration={2000} onClose={() => setShowAlert(false)}>
+        <Alert severity={isDraw ? "info" : "success"} sx={{ width: "100%" }} onClose={() => setShowAlert(false)}>
           {winnerSymbol ? "Vencedor: " + winnerSymbol : "Deu velha!"}
         </Alert>
       </Snackbar>
