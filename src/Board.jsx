@@ -113,8 +113,8 @@ export default function Board({
   }
 
   function handleNewGame() {
-    newGame();
     setEndGame(false);
+    newGame();
   }
 
   return (
