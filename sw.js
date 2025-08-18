@@ -1,16 +1,15 @@
-const CACHE_NAME = "velha-v6";
+const CACHE_NAME = "velha-v7";
 const urlsToCache = [
   "/alte/",
   "/alte/index.html",
+  "/alte/manifest.json",
+  "/alte/asset-manifest.json",
   "/alte/favicon.ico",
   "/alte/favicon.png",
   "/alte/favicon-96x96.png",
-  "/alte/web-app-192x192.png",
-  "/alte/web-app-512x512.png",
+  "/alte/web-app-manifest-192x192.png",
+  "/alte/web-app-manifest-512x512.png",
   "/alte/apple-touch-icon.png",
-  "/alte/manifest.json",
-  "/alte/index.html",
-  "/alte/asset-manifest.json",
 ];
 
 self.addEventListener("install", (event) => {
