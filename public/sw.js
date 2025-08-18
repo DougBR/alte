@@ -4,7 +4,7 @@ const urlsToCache = [
   "/alte/index.html",
   "/alte/favicon.ico",
   "/alte/favicon.png",
-  "/alte/favicon-96x96.ico",
+  "/alte/favicon-96x96.png",
   "/alte/web-app-192x192.png",
   "/alte/web-app-512x512.png",
   "/alte/apple-touch-icon.png",
