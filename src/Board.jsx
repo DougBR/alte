@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Square from "./Square";
+import Square from "./components/Square";
 import { Button, Box } from "@mui/material";
 import { Snackbar, Alert } from "@mui/material";
-import { calculateComputerMove } from "./computer";
-import { OSYMBOL, XSYMBOL, calculateWinner, endMessage } from "./boardHelpers";
+import { calculateComputerMove } from "./core/computer";
+import { OSYMBOL, XSYMBOL, calculateWinner, endMessage } from "./core/boardHelpers";
 
 export default function Board({
   xIsNext,

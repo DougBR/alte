@@ -1,4 +1,4 @@
-import { OSYMBOL, XSYMBOL, calculateWinner } from "./boardHelpers";
+import { OSYMBOL, XSYMBOL, calculateWinner } from "../core/boardHelpers";
 
 export const calculateComputerMove = (emptySquares, board, gameLevel) => {
   const lines = [
