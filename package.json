@@ -1,6 +1,6 @@
 {
-  "name": "alte",
-  "version": "0.2.0",
+  "name": "velha",
+  "version": "0.5.0",
   "main": "/src/index.js",
   "homepage": "https://dougbr.github.io/alte",
   "scripts": {

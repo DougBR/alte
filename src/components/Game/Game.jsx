@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, Box, Typography } from "@mui/material";
-import FourWayToggle from "./components/FourWayToggle";
-import Board from "./components/Board/Board";
-import Toggle from "./components/Toggle";
+import FourWayToggle from "../FourWayToggle";
+import Board from "../Board/Board";
+import Toggle from "../Toggle";
 
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
