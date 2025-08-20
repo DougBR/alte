@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Box, Typography } from "@mui/material";
-import ThreeWayToggle from "./ThreeWayToggle";
+import FourWayToggle from "./FourWayToggle";
 import Board from "./Board";
 import Toggle from "./Toggle";
 
@@ -69,7 +69,11 @@ export default function Game() {
 
       <div className="level-toggle">
         {playAgainstComputer && (
-          <ThreeWayToggle labels={["Fácil", "Normal", "Difícil"]} option={gameLevel} setOption={setGameLevel} />
+          <FourWayToggle
+            labels={["Fácil", "Normal", "Difícil", "Impossível"]}
+            option={gameLevel}
+            setOption={setGameLevel}
+          />
         )}
       </div>
       <div className="game-board">

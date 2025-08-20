@@ -1,4 +1,6 @@
-export function calculateComputerMove(emptySquares, board, gameLevel) {
+import { calculateWinner } from "./boardHelpers";
+
+export const calculateComputerMove = (emptySquares, board, gameLevel) => {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -10,9 +12,14 @@ export function calculateComputerMove(emptySquares, board, gameLevel) {
     [2, 4, 6],
   ];
   const randomIndex = Math.floor(Math.random() * emptySquares.length);
+  console.log("Game level: ", gameLevel);
+  console.log(board);
 
   if (gameLevel === "low") {
     return emptySquares[randomIndex];
+  }
+  if (gameLevel === "super") {
+    return aiMove(board);
   }
 
   // Check if computer can win
@@ -54,4 +61,63 @@ export function calculateComputerMove(emptySquares, board, gameLevel) {
   if (sides.length > 0) return sides[Math.floor(Math.random() * sides.length)];
 
   return emptySquares[randomIndex];
-}
+};
+
+const aiMove = (board) => {
+  return minimax(board);
+};
+
+const minimax = (board) => {
+  let [_v, move] = max_value(board);
+  console.log("Move, value: ", move, _v);
+  return move;
+};
+
+const max_value = (board) => {
+  let v = -Infinity;
+  if (terminal(board)) return [utility(board), null];
+  let best_move = null;
+  for (let action of actions(board)) {
+    let [value, move] = min_value(result(board, action));
+    if (value > v) {
+      v = value;
+      best_move = action;
+    }
+  }
+  return [v, best_move];
+};
+
+const min_value = (board) => {
+  let v = Infinity;
+  if (terminal(board)) return [utility(board), null];
+  let best_move = null;
+  for (let action of actions(board)) {
+    let [value, move] = max_value(result(board, action));
+    if (value < v) {
+      v = value;
+      best_move = action;
+    }
+  }
+  return [v, best_move];
+};
+
+const terminal = (board) => {
+  return !board.includes(null) || calculateWinner(board);
+};
+
+const actions = (board) => {
+  return board.map((sq, idx) => (sq === null ? idx : "")).filter(String);
+};
+
+const result = (board, action) => {
+  let newBoard = board.slice();
+  newBoard[action] = "❌";
+  return newBoard;
+};
+
+const utility = (board) => {
+  const winner = calculateWinner(board);
+  if (winner === "❌") return 1;
+  if (winner === "🟢") return -1;
+  return 0;
+};
