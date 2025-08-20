@@ -62,26 +62,23 @@ export const calculateComputerMove = (emptySquares, board, gameLevel) => {
 };
 
 const aiMove = (board) => {
-  const [value, move] = minimax(board);
-  console.log("AI chose move, value:", move, value);
+  const [value, move] = minimax(board, XSYMBOL);
   return move;
 };
 
-const minimax = (board) => {
-  return maxValue(board);
+const minimax = (board, player) => {
+  return player === XSYMBOL ? maxValue(board, player) : minValue(board, player);
 };
 
-const maxValue = (board) => {
-  console.log("entrou em maxvalue ");
+const maxValue = (board, player) => {
   if (isTerminal(board)) return [utility(board), null];
 
   let bestValue = -Infinity;
   let bestMove = null;
 
   for (const action of actions(board)) {
-    const [value] = minValue(result(board, action, XSYMBOL));
+    const [value] = minValue(result(board, action, player), switchPlayer(player));
     if (value > bestValue) {
-      console.log(value, bestValue);
       bestValue = value;
       bestMove = action;
     }
@@ -89,14 +86,14 @@ const maxValue = (board) => {
   return [bestValue, bestMove];
 };
 
-const minValue = (board) => {
+const minValue = (board, player) => {
   if (isTerminal(board)) return [utility(board), null];
 
   let bestValue = Infinity;
   let bestMove = null;
 
   for (const action of actions(board)) {
-    const [value] = maxValue(result(board, action, OSYMBOL));
+    const [value] = maxValue(result(board, action, player), switchPlayer(player));
     if (value < bestValue) {
       bestValue = value;
       bestMove = action;
@@ -109,15 +106,18 @@ const isTerminal = (board) => !board.includes(null) || Boolean(calculateWinner(b
 
 const actions = (board) => board.reduce((acc, sq, idx) => (sq === null ? [...acc, idx] : acc), []);
 
-const result = (board, action, symbol) => {
+const result = (board, action, player) => {
   const newBoard = [...board];
-  newBoard[action] = symbol;
+  newBoard[action] = player;
   return newBoard;
 };
 
 const utility = (board) => {
-  const winner = calculateWinner(board);
+  const winnerLine = calculateWinner(board);
+  const winner = winnerLine ? board[winnerLine[0]] : null;
   if (winner === XSYMBOL) return 1;
   if (winner === OSYMBOL) return -1;
   return 0;
 };
+
+const switchPlayer = (player) => (player === XSYMBOL ? OSYMBOL : XSYMBOL);
