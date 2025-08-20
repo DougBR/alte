@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Box, Typography } from "@mui/material";
 import FourWayToggle from "./components/FourWayToggle";
-import Board from "./Board";
+import Board from "./components/Board/Board";
 import Toggle from "./components/Toggle";
 
 export default function Game() {
