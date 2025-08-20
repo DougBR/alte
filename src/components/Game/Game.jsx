@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { Button, Box, Typography } from "@mui/material";
+import { useState, useMemo } from "react";
 import FourWayToggle from "../FourWayToggle";
 import Board from "../Board/Board";
 import Toggle from "../Toggle";
+import ScoreBoard from "./ScoreBoard";
+import MovesList from "./MovesList";
 
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
@@ -13,7 +14,7 @@ export default function Game() {
   const [score2, setScore2] = useState(0);
   const [draw, setDraw] = useState(0);
 
-  const xIsNext = currentMove % 2 === 1;
+  const xIsNext = useMemo(() => currentMove % 2 === 1, [currentMove]);
   const currentSquares = history[currentMove];
 
   function handlePlay(nextSquares) {
@@ -22,60 +23,41 @@ export default function Game() {
     setCurrentMove(nextHistory.length - 1);
   }
 
-  function jumpTo(nextMove) {
-    setCurrentMove(nextMove);
+  function jumpTo(move) {
+    setCurrentMove(move);
   }
 
-  function changePlayMode() {
+  function togglePlayMode() {
     setPlayAgainstComputer((prev) => !prev);
     setDraw(0);
     setScore1(0);
     setScore2(0);
-    newGame();
+    resetBoard();
   }
 
-  function newGame() {
-    jumpTo(0);
+  function resetBoard() {
     setHistory([Array(9).fill(null)]);
+    setCurrentMove(0);
   }
-
-  const moves = history.map((_, move) => {
-    let description;
-    if (move > 0) {
-      description = move === currentMove ? `Movimento atual #${move}` : `Ir para o movimento #${move}`;
-    } else {
-      description = "Ir para o movimento inicial";
-    }
-
-    return (
-      <li className="move-list" key={move}>
-        <Button className="move-button" onClick={() => jumpTo(move)}>
-          {description}
-        </Button>
-      </li>
-    );
-  });
 
   return (
     <div className="game">
-      <Box className="placcard">
-        <Typography variant="h5" component="h1">
-          🟢: {score1} | ❌: {score2} | #️⃣: {draw}
-        </Typography>
-      </Box>
+      <ScoreBoard score1={score1} score2={score2} draw={draw} />
+
       <div className="view-order">
-        <Toggle checked={playAgainstComputer} onChange={changePlayMode} off="" on="Jogar com Bot" />
+        <Toggle checked={playAgainstComputer} onChange={togglePlayMode} off="" on="Jogar com Bot" />
       </div>
 
-      <div className="level-toggle">
-        {playAgainstComputer && (
+      {playAgainstComputer && (
+        <div className="level-toggle">
           <FourWayToggle
             labels={["Fácil", "Normal", "Difícil", "Impossível"]}
             option={gameLevel}
             setOption={setGameLevel}
           />
-        )}
-      </div>
+        </div>
+      )}
+
       <div className="game-board">
         <Board
           playAgainstComputer={playAgainstComputer}
@@ -83,7 +65,7 @@ export default function Game() {
           gameLevel={gameLevel}
           squares={currentSquares}
           onPlay={handlePlay}
-          newGame={newGame}
+          newGame={resetBoard}
           setScore1={setScore1}
           setScore2={setScore2}
           setDraw={setDraw}
@@ -93,7 +75,7 @@ export default function Game() {
       <div className="game-info">
         <hr className="divider" />
         <span>Veja e estude os movimentos feitos:</span>
-        <ol>{moves}</ol>
+        <MovesList history={history} currentMove={currentMove} jumpTo={jumpTo} />
       </div>
     </div>
   );
