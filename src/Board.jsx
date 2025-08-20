@@ -3,7 +3,7 @@ import Square from "./Square";
 import { Button, Box } from "@mui/material";
 import { Snackbar, Alert } from "@mui/material";
 import { calculateComputerMove } from "./computer";
-import { OSYMBOL, XSYMBOL, calculateWinner } from "./boardHelpers";
+import { OSYMBOL, XSYMBOL, calculateWinner, endMessage } from "./boardHelpers";
 
 export default function Board({
   xIsNext,
@@ -107,11 +107,11 @@ export default function Board({
             Novo Jogo
           </Button>
         ) : (
-          <Box sx={{ width: "100%", height: 40, visibility: "hidden" }} />
+          <Box className="empty-box" />
         )}
       </div>
       <Snackbar open={showAlert} autoHideDuration={2000} onClose={() => setShowAlert(false)}>
-        <Alert severity={isDraw ? "info" : "success"} sx={{ width: "100%" }} onClose={() => setShowAlert(false)}>
+        <Alert severity={isDraw ? "info" : "success"} className="alert" onClose={() => setShowAlert(false)}>
           {winnerSymbol ? "Vencedor: " + winnerSymbol : "Deu velha!"}
         </Alert>
       </Snackbar>

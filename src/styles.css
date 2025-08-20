@@ -55,10 +55,10 @@ body {
 .square {
   background: #fff;
   border: 3px solid #070505;
-  border-radius: 0;
+  border-radius: 0 !important;
+  font-weight: bold !important;
   float: left;
   font-size: 48px;
-  font-weight: bold;
   line-height: 68px;
   height: 68px;
   margin-right: -1px;
@@ -171,4 +171,18 @@ body {
   border: none;
   margin: 15px 0;
   width: 100%;
+}
+
+.empty-box {
+  width: "100%" !important;
+  height: 40px !important;
+  visibility: "hidden";
+}
+
+.alert {
+  width: "100%";
+}
+
+.toggle {
+  align-items: "center";
 }
