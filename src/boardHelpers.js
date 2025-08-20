@@ -1,3 +1,6 @@
+export const OSYMBOL = "🟢";
+export const XSYMBOL = "❌";
+
 export function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],

@@ -3,7 +3,7 @@ import Square from "./Square";
 import { Button, Box } from "@mui/material";
 import { Snackbar, Alert } from "@mui/material";
 import { calculateComputerMove } from "./computer";
-import { calculateWinner } from "./boardHelpers";
+import { OSYMBOL, XSYMBOL, calculateWinner } from "./boardHelpers";
 
 export default function Board({
   xIsNext,
@@ -21,8 +21,6 @@ export default function Board({
   const winnerLine = calculateWinner(squares);
   const winnerSymbol = winnerLine ? squares[winnerLine[0]] : null;
   const isDraw = !winnerSymbol && squares.every((sq) => sq !== null);
-  const OSYMBOL = "🟢";
-  const XSYMBOL = "❌";
 
   let status;
   if (winnerSymbol) {
