@@ -11,100 +11,98 @@ export const calculateComputerMove = (emptySquares, board, gameLevel) => {
     [0, 4, 8],
     [2, 4, 6],
   ];
-  const randomIndex = Math.floor(Math.random() * emptySquares.length);
 
   if (gameLevel === "low") {
-    return emptySquares[randomIndex];
+    return randomChoice(emptySquares);
   }
+
   if (gameLevel === "super") {
-    return aiMove(board);
+    return aiMove(board, XSYMBOL);
   }
 
-  // Check if computer can win
-  for (const [a, b, c] of lines) {
-    const line = [board[a], board[b], board[c]];
-    const positions = [a, b, c];
-    const xCount = line.filter((v) => v === XSYMBOL).length;
-    const emptyIndex = line.findIndex((v) => v === null);
-    if (xCount === 2 && emptyIndex !== -1) return positions[emptyIndex];
-  }
+  const winMove = findWinningMove(XSYMBOL, board, lines);
+  if (winMove !== null) return winMove;
 
-  // Check if player can win, block them
-  for (const [a, b, c] of lines) {
-    const line = [board[a], board[b], board[c]];
-    const positions = [a, b, c];
-    const oCount = line.filter((v) => v === OSYMBOL).length;
-    const emptyIndex = line.findIndex((v) => v === null);
-    if (oCount === 2 && emptyIndex !== -1) return positions[emptyIndex];
-  }
+  const blockMove = findWinningMove(OSYMBOL, board, lines);
+  if (blockMove !== null) return blockMove;
 
-  // Check if center is empty, prefer it
   if (emptySquares.includes(4)) return 4;
 
   const corners = [0, 2, 6, 8].filter((i) => emptySquares.includes(i));
   const sides = [1, 3, 5, 7].filter((i) => emptySquares.includes(i));
 
-  // counter corners strategy
   const enemyCorners = [0, 2, 6, 8].filter((i) => board[i] === OSYMBOL);
   if (
     gameLevel === "high" &&
     enemyCorners.length === 2 &&
-    (board[0] === board[8] || (board[2] === board[6] && sides.length > 0))
-  )
-    return sides[Math.floor(Math.random() * sides.length)];
+    (board[0] === board[8] || board[2] === board[6]) &&
+    sides.length > 0
+  ) {
+    return randomChoice(sides);
+  }
 
-  //prefer corners
-  if (corners.length > 0) return corners[Math.floor(Math.random() * corners.length)];
+  if (corners.length > 0) return randomChoice(corners);
 
-  if (sides.length > 0) return sides[Math.floor(Math.random() * sides.length)];
+  if (sides.length > 0) return randomChoice(sides);
 
-  return emptySquares[randomIndex];
+  return randomChoice(emptySquares);
 };
 
-const aiMove = (board) => {
-  const [value, move] = minimax(board, XSYMBOL);
+const findWinningMove = (symbol, board, lines) => {
+  for (const [a, b, c] of lines) {
+    const line = [board[a], board[b], board[c]];
+    const positions = [a, b, c];
+    const count = line.filter((v) => v === symbol).length;
+    const emptyIndex = line.findIndex((v) => v === null);
+    if (count === 2 && emptyIndex !== -1) {
+      return positions[emptyIndex];
+    }
+  }
+  return null;
+};
+
+const randomChoice = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+const aiMove = (board, player) => {
+  const [, move] = minimax(board, player);
   return move;
 };
 
-const minimax = (board, player) => {
-  return player === XSYMBOL ? maxValue(board, player) : minValue(board, player);
-};
+const minimax = (board, player) => (player === XSYMBOL ? maxValue(board) : minValue(board));
 
-const maxValue = (board, player) => {
+const maxValue = (board) => {
   if (isTerminal(board)) return [utility(board), null];
 
-  let bestValue = -Infinity;
-  let bestMove = null;
-
+  let bestValue = -Infinity,
+    bestMove = null;
   for (const action of actions(board)) {
-    const [value] = minValue(result(board, action, player), switchPlayer(player));
-    if (value > bestValue) {
-      bestValue = value;
-      bestMove = action;
-    }
+    const [value] = minValue(result(board, action, XSYMBOL));
+    if (value > bestValue) [bestValue, bestMove] = [value, action];
   }
   return [bestValue, bestMove];
 };
 
-const minValue = (board, player) => {
+const minValue = (board) => {
   if (isTerminal(board)) return [utility(board), null];
 
-  let bestValue = Infinity;
-  let bestMove = null;
-
+  let bestValue = Infinity,
+    bestMove = null;
   for (const action of actions(board)) {
-    const [value] = maxValue(result(board, action, player), switchPlayer(player));
-    if (value < bestValue) {
-      bestValue = value;
-      bestMove = action;
-    }
+    const [value] = maxValue(result(board, action, OSYMBOL));
+    if (value < bestValue) [bestValue, bestMove] = [value, action];
   }
   return [bestValue, bestMove];
 };
 
 const isTerminal = (board) => !board.includes(null) || Boolean(calculateWinner(board));
 
-const actions = (board) => board.reduce((acc, sq, idx) => (sq === null ? [...acc, idx] : acc), []);
+const actions = (board) => {
+  const moves = [];
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === null) moves.push(i);
+  }
+  return moves;
+};
 
 const result = (board, action, player) => {
   const newBoard = [...board];
@@ -119,5 +117,3 @@ const utility = (board) => {
   if (winner === OSYMBOL) return -1;
   return 0;
 };
-
-const switchPlayer = (player) => (player === XSYMBOL ? OSYMBOL : XSYMBOL);
